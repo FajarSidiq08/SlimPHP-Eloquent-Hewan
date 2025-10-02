@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class HomeController
 {
     private Container $container;
+    private UploadFile $upload;
 
     public function __construct(Container $container)
     {
@@ -22,7 +23,7 @@ final class HomeController
     public function index(Request $request, Response $response): Response
     {
         $result['status']   = true;
-        $result['data']     = [];
+        $result['data']     = [ ];
         
         return JsonResponse::withJson($response, $result, 200);
     }
