@@ -2,14 +2,15 @@
 namespace App\Model;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Hewan extends Eloquent {
+class Category extends Eloquent {
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'hewan';
+	protected $table = 'category';
 
 	protected $guarded = [];
+	public $timestamps = false;
 }
