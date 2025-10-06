@@ -15,11 +15,11 @@ class AnimalCategory extends Eloquent
 
 	public function animal()
 	{
-		return $this->belongsTo(Animal::class, 'id_animal');
+		return $this->belongsTo(Animal::class, 'animal_id');
 	}
 
 	public function category()
 	{
-		return $this->belongsTo(Category::class, 'id_category');
+		return $this->belongsTo(Category::class, 'category_id');
 	}
 }

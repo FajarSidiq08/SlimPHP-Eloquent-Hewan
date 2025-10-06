@@ -23,8 +23,8 @@ final class AnimalCategoryController
     {
         $data = $request->getParsedBody();
 
-        if (empty($data['id_animal']) || empty($data['id_category'])) {
-            $result = ['status' => false, 'error' => 'id_animal dan id_category wajib diisi'];
+        if (empty($data['animal_id']) || empty($data['category_id'])) {
+            $result = ['status' => false, 'error' => 'animal_id dan category_id wajib diisi'];
             return JsonResponse::withJson($response, $result, 400);
         }
 
