@@ -13,8 +13,11 @@ final class CategoryController
     {
         $category = Category::all();
 
-        $result['status'] = true;
-        $result['data']   = $category;
+        $result = [
+            'status'  => true,
+            'message' => 'Data kategori berhasil diambil',
+            'data'    => $category
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
@@ -22,28 +25,38 @@ final class CategoryController
     public function store(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-
         $category = Category::create($data);
 
-        $result['status'] = true;
-        $result['data']   = $category;
+        $result = [
+            'status'  => true,
+            'message' => 'Kategori berhasil ditambahkan',
+            'data'    => $category
+        ];
 
-        return JsonResponse::withJson($response, $result, 200);
+        return JsonResponse::withJson($response, $result, 201);
     }
 
     public function update(Request $request, Response $response, array $args): Response
     {
         $category = Category::where('id', $args['id'])->first();
+
         if (!$category) {
-            $result = ['status' => false, 'error' => 'category tidak ditemukan'];
+            $result = [
+                'status'  => false,
+                'message' => 'Kategori tidak ditemukan',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 404);
         }
 
         $data = $request->getParsedBody();
         $category->update($data);
 
-        $result['status'] = true;
-        $result['data']   = $category;
+        $result = [
+            'status'  => true,
+            'message' => 'Kategori berhasil diperbarui',
+            'data'    => $category
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
@@ -51,13 +64,23 @@ final class CategoryController
     public function destroy(Request $request, Response $response, array $args): Response
     {
         $category = Category::where('id', $args['id'])->first();
+
         if (!$category) {
-            $result = ['status' => false, 'error' => 'category tidak ditemukan'];
+            $result = [
+                'status'  => false,
+                'message' => 'Kategori tidak ditemukan',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 404);
         }
 
         $category->delete();
-        $result = ['status' => true, 'message' => 'category berhasil dihapus'];
+
+        $result = [
+            'status'  => true,
+            'message' => 'Kategori berhasil dihapus',
+            'data'    => null
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }

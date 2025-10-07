@@ -13,8 +13,11 @@ final class AnimalController
     {
         $animal = Animal::all();
 
-        $result['status'] = true;
-        $result['data']   = $animal;
+        $result = [
+            'status'  => true,
+            'message' => 'Data hewan berhasil diambil',
+            'data'    => $animal
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
@@ -22,28 +25,38 @@ final class AnimalController
     public function store(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-
         $animal = Animal::create($data);
 
-        $result['status'] = true;
-        $result['data']   = $animal;
+        $result = [
+            'status'  => true,
+            'message' => 'Data hewan berhasil ditambahkan',
+            'data'    => $animal
+        ];
 
-        return JsonResponse::withJson($response, $result, 200);
+        return JsonResponse::withJson($response, $result, 201);
     }
 
     public function update(Request $request, Response $response, array $args): Response
     {
         $animal = Animal::where('id', $args['id'])->first();
+
         if (!$animal) {
-            $result = ['status' => false, 'error' => 'hewan tidak ditemukan'];
+            $result = [
+                'status'  => false,
+                'message' => 'Data hewan tidak ditemukan',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 404);
         }
 
         $data = $request->getParsedBody();
         $animal->update($data);
 
-        $result['status'] = true;
-        $result['data']   = $animal;
+        $result = [
+            'status'  => true,
+            'message' => 'Data hewan berhasil diperbarui',
+            'data'    => $animal
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
@@ -51,13 +64,23 @@ final class AnimalController
     public function destroy(Request $request, Response $response, array $args): Response
     {
         $animal = Animal::where('id', $args['id'])->first();
+
         if (!$animal) {
-            $result = ['status' => false, 'error' => 'hewan tidak ditemukan'];
+            $result = [
+                'status'  => false,
+                'message' => 'Data hewan tidak ditemukan',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 404);
         }
 
         $animal->delete();
-        $result = ['status' => true, 'message' => 'hewan berhasil dihapus'];
+
+        $result = [
+            'status'  => true,
+            'message' => 'Data hewan berhasil dihapus',
+            'data'    => null
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }

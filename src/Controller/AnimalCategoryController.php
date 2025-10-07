@@ -13,8 +13,11 @@ final class AnimalCategoryController
     {
         $data = AnimalCategory::with(['animal', 'category'])->get();
 
-        $result['status'] = true;
-        $result['data']   = $data;
+        $result = [
+            'status'  => true,
+            'message' => 'Data relasi hewan dan kategori berhasil diambil',
+            'data'    => $data
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
@@ -24,31 +27,46 @@ final class AnimalCategoryController
         $data = $request->getParsedBody();
 
         if (empty($data['animal_id']) || empty($data['category_id'])) {
-            $result = ['status' => false, 'error' => 'animal_id dan category_id wajib diisi'];
+            $result = [
+                'status'  => false,
+                'message' => 'animal_id dan category_id wajib diisi',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 400);
         }
 
         $relasi = AnimalCategory::create($data);
 
-        $result['status'] = true;
-        $result['data']   = $relasi;
+        $result = [
+            'status'  => true,
+            'message' => 'Relasi hewan dan kategori berhasil ditambahkan',
+            'data'    => $relasi
+        ];
 
-        return JsonResponse::withJson($response, $result, 200);
+        return JsonResponse::withJson($response, $result, 201);
     }
 
     public function update(Request $request, Response $response, array $args): Response
     {
         $relasi = AnimalCategory::where('id', $args['id'])->first();
+
         if (!$relasi) {
-            $result = ['status' => false, 'error' => 'Relasi tidak ditemukan'];
+            $result = [
+                'status'  => false,
+                'message' => 'Relasi hewan dan kategori tidak ditemukan',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 404);
         }
 
         $data = $request->getParsedBody();
         $relasi->update($data);
 
-        $result['status'] = true;
-        $result['data']   = $relasi;
+        $result = [
+            'status'  => true,
+            'message' => 'Relasi hewan dan kategori berhasil diperbarui',
+            'data'    => $relasi
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
@@ -56,14 +74,23 @@ final class AnimalCategoryController
     public function destroy(Request $request, Response $response, array $args): Response
     {
         $relasi = AnimalCategory::where('id', $args['id'])->first();
+
         if (!$relasi) {
-            $result = ['status' => false, 'error' => 'Hewan tidak ditemukan'];
+            $result = [
+                'status'  => false,
+                'message' => 'Relasi hewan dan kategori tidak ditemukan',
+                'data'    => null
+            ];
             return JsonResponse::withJson($response, $result, 404);
         }
 
         $relasi->delete();
 
-        $result = ['status' => true, 'message' => 'Hewan berhasil dihapus'];
+        $result = [
+            'status'  => true,
+            'message' => 'Relasi hewan dan kategori berhasil dihapus',
+            'data'    => null
+        ];
 
         return JsonResponse::withJson($response, $result, 200);
     }
